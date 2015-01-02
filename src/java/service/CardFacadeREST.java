@@ -36,21 +36,42 @@ public class CardFacadeREST extends AbstractFacade<Card> {
     public CardFacadeREST() {
         super(Card.class);
     }
-
+    
     @POST
     @Path("/ccDetails")
     @Produces({"text/plain"})
-    public String hasBalance(@FormParam("no") String ccno,
-                             @FormParam("requested") double requested) {
-        String q = "SELECT e FROM Card e WHERE e.ccNo = :ccNo AND e.balance > :requested";
+    public int hasBalance(@FormParam("no") String ccno,
+                          @FormParam("requested") double requested
+//                          ,@FormParam("cvc") String cvc,
+//                          @FormParam("firstName") String fname,
+//                          @FormParam("lastName") String lname,
+//                          @FormParam("address1") String street,
+//                          @FormParam("city") String city,
+//                          @FormParam("state") String state,
+//                          @FormParam("zip") String zip
+//                          
+                          ){
+        String q = "SELECT e FROM Card e WHERE e.ccNo = :ccNo AND e.balance >= :requested ";
+//                + "AND e.firstName = :fname "
+//                + "AND e.lastName = :lname "
+//                + "AND e.street = :street "
+//                + "AND e.city = :city "
+//                + "AND e.state = :state "
+//                + "AND e.zip = :zip";
         TypedQuery<Card> query = em.createQuery(q, Card.class);
         query.setParameter("ccNo", ccno);
         query.setParameter("requested", requested);
+//        query.setParameter("fname", fname);
+//        query.setParameter("lname", lname);
+//        query.setParameter("street", street);
+//        query.setParameter("city", city);
+//        query.setParameter("state", state);
+//        query.setParameter("zip", zip);
         try {
             Card c = query.getSingleResult();
-            return "success";
+            return 1;
         } catch (Exception e) {
-            return e.getMessage();
+            return 0;
         }
     }
 
@@ -86,9 +107,6 @@ public class CardFacadeREST extends AbstractFacade<Card> {
     public String splash(){
         return "Credit Card Validator";
     }
-//    public List<Card> findAll() {
-//        return super.findAll();
-//    }
 
 //    @GET
 //    @Override
