@@ -37,11 +37,11 @@ public class CardFacadeREST extends AbstractFacade<Card> {
         super(Card.class);
     }
     
-    @POST
+    @GET
     @Path("/ccDetails")
     @Produces({"text/plain"})
-    public int hasBalance(@FormParam("no") String ccno,
-                          @FormParam("requested") double requested
+    public int hasBalance(@QueryParam("no") String ccno,
+                          @QueryParam("requested") double requested
 //                          ,@FormParam("cvc") String cvc,
 //                          @FormParam("firstName") String fname,
 //                          @FormParam("lastName") String lname,
@@ -108,12 +108,13 @@ public class CardFacadeREST extends AbstractFacade<Card> {
         return "Credit Card Validator";
     }
 
-//    @GET
-//    @Override
-//    @Produces({"application/xml", "application/json"})
-//    public List<Card> findAll() {
-//        return super.findAll();
-//    }
+    @GET
+    @Path("all")
+    @Override
+    @Produces({"application/xml", "application/json"})
+    public List<Card> findAll() {
+        return super.findAll();
+    }
     @GET
     @Path("{from}/{to}")
     @Produces({"application/xml", "application/json"})
