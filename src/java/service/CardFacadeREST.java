@@ -69,6 +69,8 @@ public class CardFacadeREST extends AbstractFacade<Card> {
 //        query.setParameter("zip", zip);
         try {
             Card c = query.getSingleResult();
+            /* If Card is found, deduct the money and send the response */
+            c.setBalance(c.getBalance()-requested);
             return 1;
         } catch (Exception e) {
             return 0;
